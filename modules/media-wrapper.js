@@ -17,7 +17,8 @@ export const wrapMedias = (html) => {
         'div.editor-content img:not([data-edit])', // FVTT imgs
         'div.editor-content video:not([data-edit])', // FVTT videos
         'section.tab-container img:not([data-edit])', // Kanka imgs
-        'section.tab-container input[type="image"]' // Kanka inputs
+        'section.tab-container input[type="image"]', // Kanka inputs
+		'.filepicker-body img' // Filepicker-body imgs
     ]
 
     const medias = html.find(selectors.join(','))
@@ -30,8 +31,8 @@ export const wrapMedias = (html) => {
         const smallMediaSize = htmlMedia.innerWidth() <= 350
 
         const mediaUrl = mediaType === 'image' ?
-            htmlMedia.attr('src') :
-            htmlMedia.attr('src') || htmlMedia.find('source:first').attr('src')
+            htmlMedia.attr('src') || htmlMedia.data('src') : // For the filepicker, mediaUrl is in data-src
+            htmlMedia.attr('src') || htmlMedia.find('source:first').attr('src') || htmlMedia.data('src'); // Added Filepicker video support (untested)
 
         _wrapImageVideoMedia(media, mediaUrl, mediaType, smallMediaSize)
     })

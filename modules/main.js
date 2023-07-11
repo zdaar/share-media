@@ -57,6 +57,14 @@ Hooks.on('renderActorSheet', (app, html) => {
     activateMediaListeners(html)
 })
 
+// Filepicker compatibility
+Hooks.on('renderApplication', (app, html) => {
+    if (app.options.classes?.includes('filepicker')) {
+        wrapMedias(html)
+        activateMediaListeners(html)
+    }
+});
+
 Hooks.on('getActorDirectoryEntryContext', (html, contextEntries) => {
     const contextOptionsDisabled = game.settings.get(constants.moduleName, SETTINGS.DISABLE_CONTEXT_OPTIONS)
     if (!contextOptionsDisabled) addSidebarContextEntries(contextEntries, 'actors')
